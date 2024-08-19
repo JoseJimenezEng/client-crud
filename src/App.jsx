@@ -7,10 +7,11 @@ function App() {
   const [formData, setFormData] = useState({ name: '', email: '', picture: '' });
   const [selectedId, setSelectedId] = useState(null);
   const [action, setAction] = useState('');
+  
 
   const fetchPersonas = async () => {
     try {
-      const response = await axios.get('https://simplecrud-evva.onrender.com/api/personas/');
+      const response = await axios.get(import.meta.env.VITE_CRUD_API);
       setPersonas(response.data || []);
       console.log(response);
     } catch (error) {
@@ -24,14 +25,14 @@ function App() {
     e.preventDefault();
     try {
       if (action === 'POST') {
-        await axios.post('https://simplecrud-evva.onrender.com/api/personas', formData);
+        await axios.post(import.meta.env.VITE_CRUD_API, formData);
       } else if (action === 'PUT' && selectedId) {
-        await axios.put(`https://simplecrud-evva.onrender.com/api/personas/${selectedId}`, formData);
+        await axios.put(import.meta.env.VITE_CRUD_API+`/${selectedId}`, formData);
         console.log(selectedId)
         setSelectedId(null);
         console.log(formData)
       } else if (action === 'DELETE' && selectedId) {
-        await axios.delete(`https://simplecrud-evva.onrender.com/api/personas/${selectedId}`);
+        await axios.delete(import.meta.env.VITE_CRUD_API+`/${selectedId}`);
         setSelectedId(null);
       }
       fetchPersonas();
