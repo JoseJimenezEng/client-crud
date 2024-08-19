@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-//
+
 function App() {
   const [personas, setPersonas] = useState([]);
   const [formData, setFormData] = useState({ name: '', email: '', picture: '' });
@@ -10,7 +10,7 @@ function App() {
 
   const fetchPersonas = async () => {
     try {
-      const response = await axios.get('https://simplecrud-evva.onrender.com/api/personas');
+      const response = await axios.get('https://simplecrud-evva.onrender.com/api/personas/');
       setPersonas(response.data || []);
       console.log(response);
     } catch (error) {
