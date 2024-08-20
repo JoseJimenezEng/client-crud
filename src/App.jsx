@@ -75,7 +75,7 @@ function App() {
             <th>Acciones</th>
           </tr>
         </thead>
-        <p id='loading'>Cargando...</p>
+        <p id='loading' style={{display: "none"}}>Cargando...</p>
         <tbody>
           {Array.isArray(personas) && personas.map((persona) => (
             <tr key={persona._id}>
