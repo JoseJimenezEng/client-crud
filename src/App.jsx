@@ -7,13 +7,15 @@ function App() {
   const [formData, setFormData] = useState({ name: '', email: '', picture: '' });
   const [selectedId, setSelectedId] = useState(null);
   const [action, setAction] = useState('');
-  
+  const [cont, setCont] = useState(true);
 
-  const fetchPersonas = async () => {
-    console.log(personas)
-    if((personas == [])){
-      document.getElementById("loading").classList.remove('d-none')
+  const initServer = () => {
+    if (cont) {
+      alert('Si es su primera vez o el servidor lleva tiempo sin usarse, puede tardar hasta 5 minutos sin responder, pues es un servicio gratuito')
+      setCont(false)
     }
+  }
+  const fetchPersonas = async () => {
     try {
       const response = await axios.get(import.meta.env.VITE_CRUD_API);
       setPersonas(response.data || []);
@@ -23,19 +25,19 @@ function App() {
     }
   };
 
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       if (action === 'POST') {
         await axios.post(import.meta.env.VITE_CRUD_API, formData);
       } else if (action === 'PUT' && selectedId) {
-        await axios.put(import.meta.env.VITE_CRUD_API+`/${selectedId}`, formData);
+        await axios.put(import.meta.env.VITE_CRUD_API + `/${selectedId}`, formData);
         console.log(selectedId)
         setSelectedId(null);
         console.log(formData)
       } else if (action === 'DELETE' && selectedId) {
-        await axios.delete(import.meta.env.VITE_CRUD_API+`/${selectedId}`);
+        await axios.delete(import.meta.env.VITE_CRUD_API + `/${selectedId}`);
         setSelectedId(null);
       }
       fetchPersonas();
@@ -71,7 +73,6 @@ function App() {
           </tr>
         </thead>
         <tbody>
-        <p id='loading' className='d-none'>Cargando...</p>
           {Array.isArray(personas) && personas.map((persona) => (
             <tr key={persona._id}>
               <td>{persona.name}</td>
@@ -98,7 +99,10 @@ function App() {
 
       <div className="d-flex justify-content-around mt-4">
         <button className="btn btn-primary" onClick={() => handleAction('POST')}>Agregar Persona</button>
-        <button className="btn btn-success" onClick={fetchPersonas}>Ver Personas</button>
+        <button className="btn btn-success" onClick={() => {
+          fetchPersonas();
+          initServer();
+        }}>Ver Personas</button>
       </div>
 
       {action && (
