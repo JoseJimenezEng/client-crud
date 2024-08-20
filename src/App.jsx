@@ -10,6 +10,7 @@ function App() {
   
 
   const fetchPersonas = async () => {
+    
     try {
       const response = await axios.get(import.meta.env.VITE_CRUD_API);
       setPersonas(response.data || []);
@@ -18,6 +19,12 @@ function App() {
       console.log("Error al obtener personas:", error);
       setPersonas([]);
     }
+    if (personas == []) {
+      document.getElementById('loading').classList.add('d-flex')
+    }else{
+      document.getElementById('loading').classList.add('d-none')
+    }
+    console.log(personas)
   };
 
   
@@ -56,6 +63,7 @@ function App() {
 
   return (
     <div className="container">
+    
       <h1 className="mt-4">Gestión de Personas</h1>
 
       <table className="table table-bordered mt-4">
@@ -67,6 +75,7 @@ function App() {
             <th>Acciones</th>
           </tr>
         </thead>
+        <p id='loading'>Cargando...</p>
         <tbody>
           {Array.isArray(personas) && personas.map((persona) => (
             <tr key={persona._id}>
