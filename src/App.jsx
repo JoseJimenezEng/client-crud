@@ -10,7 +10,10 @@ function App() {
   
 
   const fetchPersonas = async () => {
-    alert('Si es su primera vez o el servidor lleva tiempo sin usarse, puede tardar hasta 5 minutos sin responder, pues es un servicio gratuito')
+    console.log(personas)
+    if((personas == [])){
+      document.getElementById("loading").classList.remove('d-none')
+    }
     try {
       const response = await axios.get(import.meta.env.VITE_CRUD_API);
       setPersonas(response.data || []);
@@ -68,6 +71,7 @@ function App() {
           </tr>
         </thead>
         <tbody>
+        <p id='loading' className='d-none'>Cargando...</p>
           {Array.isArray(personas) && personas.map((persona) => (
             <tr key={persona._id}>
               <td>{persona.name}</td>
