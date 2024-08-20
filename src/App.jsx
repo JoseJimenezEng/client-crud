@@ -10,21 +10,14 @@ function App() {
   
 
   const fetchPersonas = async () => {
-    
+    alert('Si es su primera vez o el servidor lleva tiempo sin usarse, puede tardar hasta 5 minutos sin responder, pues es un servicio gratuito')
     try {
       const response = await axios.get(import.meta.env.VITE_CRUD_API);
       setPersonas(response.data || []);
-      console.log(response);
     } catch (error) {
       console.log("Error al obtener personas:", error);
       setPersonas([]);
     }
-    if (personas == []) {
-      document.getElementById('loading').classList.add('d-flex')
-    }else{
-      document.getElementById('loading').classList.add('d-none')
-    }
-    console.log(personas)
   };
 
   
@@ -63,7 +56,6 @@ function App() {
 
   return (
     <div className="container">
-    
       <h1 className="mt-4">Gestión de Personas</h1>
 
       <table className="table table-bordered mt-4">
@@ -75,7 +67,6 @@ function App() {
             <th>Acciones</th>
           </tr>
         </thead>
-        <p id='loading' style={{display: "none"}}>Cargando...</p>
         <tbody>
           {Array.isArray(personas) && personas.map((persona) => (
             <tr key={persona._id}>
